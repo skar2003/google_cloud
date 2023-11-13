@@ -481,7 +481,6 @@ function generateOptions() {
             var enteredRollNumber = rollNumberInput.value;
             if (Object.keys(rollNumberNameMap).includes(enteredRollNumber)) {
                 submitButton.disabled = false; // Enable the submit button
-                alert("hi");
             } else {
                 submitButton.disabled = true; // Disable the submit button
                 rollNumberError.textContent = "Entered email is not valid.";
