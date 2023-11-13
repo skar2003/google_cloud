@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Workshop Attendance</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-submit, .btn-verify {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .btn-submit:hover, .btn-verify:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="text-center">Java Workshop Attendance</h2>
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLScuXDDZx_ZffYpDbvCqzklxY2u7JNPmWIT-ueMHhdAtZ6SgOQ/formResponse" method="post"  id="attendanceForm" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="rollNumber">Email:</label>
+                <div class="input-group">
+                    <input type="email" class="form-control" id="rollNumber" name="entry.2113375377" list="rollNumberList" onchange="fillName()" required>
+                    <datalist id="rollNumberList">
+                        <!-- JavaScript code to dynamically generate options -->
+                    </datalist>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-verify" onclick="verifyRollNumber()">Verify</button>
+                    </div>
+                </div>
+                <small id="rollNumberError" class="form-text text-danger"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="entry.1894900886" readonly>
+            </div>
+            <div class="form-group">
+                <!-- <label for="link">Link:</label> -->
+                <input type="text" class="form-control" id="link" name="entry.839362711" readonly>
+            </div>
+            <div class="form-group">
+                <!-- <label for="img_link">Link:</label> -->
+                <input type="text" class="form-control" id="img_link" name="entry.1628420128" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-submit btn-block" onclick="thankyou()">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (optional) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function fillName() {
+            var rollNumberInput = document.getElementById("rollNumber");
+            var nameInput = document.getElementById("name");
+            var link=document.getElementById("link");
+            var rollNumberList = document.getElementById("rollNumberList").options;
+            var img=document.getElementById("img_link");
+
+            // Sample data - replace with your actual data
+    var rollNumberNameMap = {
+    "meghanaa3579@gmail.com": "Meghana Manda",
+    "yandrasaisudheer@gmail.com": "SAI SUDHEER YANDRA",
+    "maheshmurari001@gmail.com": "MURARI VENKATA SAI MAHESH",
+    "manjusha5855@gmail.com": "Manjusha Dommeti",
+    "srisowmyav28@gmail.com": "Sarvasri Sowmya Lakshmi Vishnuvajhala",
+    "jagadeeshkumar112311@gmail.com": "Jagadeesh Kumar Kottu",
+    "satyapavanjupudi@gmail.com": "Satya Pavan Jupudi",
+    "sunshine.anu2564@gmail.com": "Pavani Annapurna Bethireddy",
+    "sathvikaganapathineedi@gmail.com": "Sathvika Ganapathineedi",
+    "shaiktaslim2019@gmail.com": "SHAIK TASLIM",
+    "dattasaimoganti@gmail.com": "Datta sai Moganti",
+    "shaiksubhansaheb609@gmail.com": "SUBHAN SAHEB SHAIK",
+    "divakardhanasai@gmail.com": "Vedulla Divakar DhanaSai",
+    "navyachalapaka123@gmail.com": "Chalapaka Navya Anusha",
+    "tarunkassetti@gmail.com": "Kassetti Tarun Kumar",
+    "harshitha258gadde@gmail.com": "Gadde Durga Harshitha",
+    "hasinikaja19@gmail.com": "Hasini Kaja",
+    "anusha8804@gmail.com": "Anusha Korapati",
+    "guptach1105@gmail.com": "Charugalla Veera Bhadra Gupta",
+    "sriyareddy57503@gmail.com": "Alekhya Sai Sriya Karri",
+    "ksharonkumar01@gmail.com": "KOMMALAPATI SHARON KUMAR",
+    "srisatyasatti@gmail.com": "Sri Satya Satti",
+    "maturupraneeth@gmail.com": "Maturu Praneeth",
+    "kasyapvadapalli5233@gmail.com": "VADAPALLI KASYAP",
+    "sakhamurisravanthi49@gmail.com": "SRAVANTHI SAKHAMURI",
+    "harshitanavya99@gmail.com": "HARSHITHA NAVYA CHENNU",
+    "skar2k23@gmail.com": "Karthik Samana",
+    "bhosalesraya77@gmail.com": "SRAYA BHOSALE",
+    "mungarasatwika@gmail.com": "Satwika Varshini Mungara",
+    "pranavpatri99@gmail.com": "Patri Naga Venkata Pranav",
+    "mr.veeru125@gmail.com": "VEERA NAGENDRA KUMAR EETHA",
+    "nikhilakandukuri@gmail.com": "Kandukuri Nikhila",
+    "tanveerbashask@gmail.com": "SHAIK TANVEER BASHA",
+    "karamathfardeen@gmail.com": "Mohammad Karamath Fardeen",
+    "srimounikakv@gmail.com": "Venkata Sri Mounika Kalaga",
+    "saranyachanduri@gmail.com": "CHANDURI SARANYA",
+    "mungaraharika2004@gmail.com": "LAKSHMI SRI HARIKA MUNGARA",
+    "sunny1225752@gmail.com": "KATTULA NAVEEN TEJA",
+    "sudhagayathri.chouta@gmail.com": "Chouta Sudha Gayathri",
+    "v.dharma2552@gmail.com": "Vaddi Hemanth Sri Dharma Teja",
+    "harikaadi799@gmail.com": "Adi Harika Lakshmi",
+    "vamsib349@gmail.com": "Bokka Vamsi sai vardhan",
+    "gumaaishwarya999@gmail.com": "Uma Aishwarya Gottumukkala",
+    "anjanakaruturi3@gmail.com": "Karuturi Naga Satya Purna Anjana",
+    "bhagyasri1783@gmail.com": "Bhagya Sri Pitta",
+    "sripavanipanda1902@gmail.com": "Sripavani panda",
+    "sasikiran1565@gmail.com": "Sasi Kiran Manepalli",
+    "saideepthi961@gmail.com": "Bomma Appala Sai Deepthi",
+    "govardhandamisetti@gmail.com": "Govardhan Kalyan Kumar Damisetti",
+    "ushakumarisajja@gmail.com": "sajja bala usha kumari",
+    "sheemask123@gmail.com": "Sheema Sheik",
+    "m80961282@gmail.com": "Mani Chandana Manne",
+    "chbhargavi009@gmail.com": "Bhargavi Challamcharla",
+    "luckychandrahas@gmail.com": "TARAK SRI CHANDRAHAS LAKKAKULA",
+    "gayathrisuggisetti2564@gmail.com": "SUGGISETTI PAVANI VENKATA LAKSHMI GAYATHRI",
+    "sravaniareti3@gmail.com": "devi sravani bharathi areti",
+    "anjali.annamreddy13@gmail.com": "ANNAMREDDY NAGA VENKATA SAI DURGA ANJALI",
+    "likhith5143@gmail.com": "LIKHITH KONAKALLA",
+    "umamangena04@gmail.com": "MANGINA UMAMAHESWARARAO",
+    "navyareddy5254@gmail.com": "Navya Sindhuja Reddy",
+    "lavanyadara61@gmail.com": "Lavanya Dara",
+    "durgasasindra@gmail.com": "V Durga Sasindra",
+    "palivelamohinipravallika11@gmail.com": "Mohini Pravallika Palivela",
+    "ravikishore0503@gmail.com": "Gannabattula Ravi Kishore",
+    "velagaletisindhu@gmail.com": "velagaleti naga sindhu",
+    "gullaanandkumar@gmail.com": "Anand Kumar Gulla",
+    "susmithanunna141@gmail.com": "Susmitha Radha Devi Nunna",
+    "udaysaichaitanya@gmail.com": "Tumu Uday Sai Chaitanya",
+    "mbsaikarthik@gmail.com": "MUDUNURI BHARATH SAI KARTHIK",
+    "sreeja1517@gmail.com": "MALLIPUDI LAKSHMI SRIJA",
+    "padamharshitakrishnasri@gmail.com": "PADAM HARSHITA KRISHNA SRI",
+    "santhosh79812@gmail.com": "Hari venkata santhosh Rakurthi",
+    "lakshmipriya79736@gmail.com": "veeravalli Lakshmipriya",
+    "alapatikumarraja@gmail.com": "kumar raja rajendhra prasad alapati",
+    "deepikapadala0@gmail.com": "Padala Surya Deepika",
+    "renukakrovvidi@gmail.com": "KROVVIDI RENUKA",
+    "kchiruvaibhavreddy@gmail.com": "Chiru Vaibhav Reddy Kovvuri",
+    "dineshkarthikgude@gmail.com": "DINESH KARTHIK GUDE",
+    "a.gireshraju@gmail.com": "Giresh Raju Adimulam",
+    "ecssprasad2731@gmail.com": "Chandra Surya Siva Prasad Eragavarapu",
+    "nandyalahima8@gmail.com": "Nandyala Hima Subrahmanyeswari",
+    "sathwikagayathri425@gmail.com": "Sathwika Gayathri Animisetty",
+    "jahnavi.nekkanti00@gmail.com": "Nekkanti Durga Sri Jahnavi",
+    "ravithreyiniravi@gmail.com": "Devaguptapu Ravithreyini",
+    "bhavanisankaramboddu@gmail.com": "BHAVANI SANKARAM BODDU",
+    "write2anureddy@gmail.com": "Anitha Rani.karri",
+    "nithinyadav393@gmail.com": "NITHIN SATYA NAG YADAV KATTA",
+    "charanm878@gmail.com": "Charan Sri Sai Mylavarapu",
+    "surisettideepika999@gmail.com": "Deepika Surisetti",
+    "alladadevi6@gmail.com": "Lakshmi Saroja Devi Allada",
+    "sontimlakshmimeghana@gmail.com": "Lakshmi Meghana Sontim",
+    "sasisanjanapydikondala@gmail.com": "Sasi Sanjana Pydikondala",
+    "shaikrajiyasulthana13455@gmail.com": "Rajiya Sulthana Shaik",
+    "mahammadvalibabu@gmail.com": "Mahammad Valibabu",
+    "venkateshdodda14@gmail.com": "Naga Satya Venkatesh Dodda",
+    "kdevimahendra@gmail.com": "Devi Mahendra Koppula",
+    "supriyaganne2426@gmail.com": "Supriya Ganne",
+    "prasadsrinu772@gmail.com": "Addala Lakshmi Veera Venkata Prasad",
+    "supriyaveerla2020@gmail.com": "SUPRIYA VEERLA",
+    "satyasivanikommina@gmail.com": "Satyasivani Kommina",
+    "madasumanichandu75@gmail.com": "MANI CHANDU MADASU",
+};
+const img_link = {
+    'meghanaa3579@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-834458f1-d1a1-442d-afa5-dff2af252952.png',
+    'yandrasaisudheer@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-a78445b0-20c1-4a59-8a79-00866f1b4a97.png',
+    'maheshmurari001@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-9e685ab2-14d4-4c22-beb6-5b20e2b981e5.png',
+    'manjusha5855@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-94f91286-e137-41fe-94e5-8d7504e21092.png',
+    'srisowmyav28@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-3321aef1-be8e-4e78-9a0f-3f1e3a5498ac.png',
+    'jagadeeshkumar112311@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-ad96da95-8bd6-4a99-9bd6-930a36ce7b31.png',
+    'satyapavanjupudi@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-9ae96918-333e-4b7a-8b28-d4880d3e8460.png',
+    'sunshine.anu2564@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-2d1f12e6-29ac-400a-b5ba-729c42b06b97.png',
+    'sathvikaganapathineedi@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-423251da-012e-40bc-b0a6-6e32c9a4ec79.png',
+    'shaiktaslim2019@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-071ab8af-9dc7-4350-9209-74835ab0f55d.png',
+    'dattasaimoganti@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-0d3d5fa7-c013-41af-a367-e2a5bd6776dd.png',
+    'shaiksubhansaheb609@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-25f78998-37bd-4cf3-aeed-a0c44d1e4615.png',
+    'divakardhanasai@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-b3fd9e12-b91d-4077-a13a-39f8741b6009.png',
+    'navyachalapaka123@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-ad96a044-4de1-4a51-8a3e-5c3c53048acf.png',
+    'tarunkassetti@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-cdbfaaf2-a346-4fac-970d-b922f44a0bc9.png',
+    'harshitha258gadde@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-a007caaf-4e28-4346-8598-f50289fbe3fd.png',
+    'hasinikaja19@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-97eb2300-3800-4fa8-9738-6de2b7ebd9ff.png',
+    'anusha8804@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-6a0f4773-b076-48b1-916e-701c2af0d059.png',
+    'guptach1105@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-65cc225d-5315-43b6-9643-2d4bab20939d.png',
+    'sriyareddy57503@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-99028101-765d-47ac-adc0-4c2b21dc26fc.png',
+    'ksharonkumar01@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-6feb54d0-e73f-4171-85bf-8ff71dddca2e.png',
+  'srisatyasatti@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-4243e48b-be27-4434-abf7-c329099fd7a2.png',
+  'maturupraneeth@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-8acee063-b862-4f85-8674-44372a08890f.png',
+  'kasyapvadapalli5233@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-d1cd576b-b65a-4276-b102-f96a2bb344b3.png',
+  'sakhamurisravanthi49@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-7472465b-ce23-463b-9652-b97acfd0ddb4.png',
+  'harshitanavya99@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-f79f5b7c-4e9b-4827-b03e-23767fa50658.png',
+  'skar2k23@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-109e21a0-3b71-4194-bf2e-4f39576c3c56.png',
+  'bhosalesraya77@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-7997d30d-5e33-4693-a535-190392346531.png',
+  'mungarasatwika@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-d9eee36a-2ec8-4969-8701-e6db3fc9d727.png',
+  'pranavpatri99@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-b034a26a-df4a-41fc-82ff-d90325f1e71e.png',
+  'mr.veeru125@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-a06b073f-468f-466c-93d7-df5ddc92a86a.png',
+  'nikhilakandukuri@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-26984a0c-7d17-4ff3-a567-0c4ad7642cd6.png',
+  'tanveerbashask@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-98e9afad-7896-488b-a609-937443d832c5.png',
+  'karamathfardeen@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-a7603bd3-3573-4dc2-9dca-9d7e6448eed0.png',
+  'srimounikakv@gmail.com': 'https://qrexplore.com/download/23/11/13/974taH/https---www.cloudskillsboost.google-public_profiles-6cd25772-d0b1-4436-b0da-962a004f37e7.png',
+  'saranyachanduri@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-2b68705c-8bd9-48f5-b3c5-57a964763bd6.png',
+  'mungaraharika2004@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-f7029676-5d95-4505-98be-26912cb06c31.png',
+  'sunny1225752@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-87505651-9a18-4065-815b-aaced60c63ec.png',
+  'sudhagayathri.chouta@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-7bb83ffb-8fb2-4ebb-9f67-b1b442510eef.png',
+  'v.dharma2552@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-9bef4e85-0d9f-41a0-bb6b-e5f92a128d19.png',
+  'harikaadi799@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-9c0ece02-2ed9-44c6-84ba-1801d80ca5ac.png',
+  'vamsib349@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-e1740d76-6fbd-4f0c-8041-de6f8d1f3c99.png',
+  'gumaaishwarya999@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-b92adb45-6ea3-45b3-b267-8cdc4ff79f28.png',
+  'anjanakaruturi3@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-4b8a61d9-efd2-48e7-82e1-60da65831cbc.png',
+  'bhagyasri1783@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-24f0c387-f127-425e-bf5e-50d7390d2f40.png',
+  'sripavanipanda1902@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-44321b11-0925-4bac-b327-f9a007bd48c2.png',
+  'sasikiran1565@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-11cd8e45-b33c-483b-9778-17a900159f46.png',
+  'saideepthi961@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-564aaea8-3b58-4b03-9a22-2c70541ffe4f.png',
+  'govardhandamisetti@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-1f5f38dd-bdfd-49ad-a67e-7becd883e57d.png',
+  'ushakumarisajja@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/http---www.cloudskillsboost.google-public_profiles-c1a2ae7c-3a1d-4fab-89d2-930d1f508f1c.png',
+  'sheemask123@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-84099ac1-0abf-4b03-902f-49b4c13d5791.png',
+  'm80961282@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-dff1ad2a-5d83-478e-a43c-6dcdd364fe2c.png',
+  'chbhargavi009@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-6a7d3332-2920-4262-ae77-84421a462a60.png',
+  'luckychandrahas@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-96988cf4-fa3f-4482-8942-2105b5925b7f.png',
+  'gayathrisuggisetti2564@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-d52f7416-71cb-4838-8fbc-4d0c08386b14.png',
+  'sravaniareti3@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-9bded78c-daaf-442b-8755-ed6e0e7d6c17.png',
+  'anjali.annamreddy13@gmail.com': 'https://qrexplore.com/download/23/11/13/JcyVyp/https---www.cloudskillsboost.google-public_profiles-8a466fad-2f9e-485a-93b0-53e0fbeb0a24.png',
+  'likhith5143@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-41521628-a27b-420a-96ca-68def8a2b63a.png',
+  'umamangena04@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-0660d326-ebd5-4ccc-97f4-b39a20d873ba.png',
+  'navyareddy5254@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-244e358b-38ec-4373-8057-62dc05585e44.png',
+  'lavanyadara61@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-642498ae-8e09-4553-9f53-f667c4d63fdf.png',
+  'durgasasindra@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-41db625d-5532-43f2-995e-12cb198b0720.png',
+  'palivelamohinipravallika11@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-588bd501-d0c9-4d6c-a048-04793ffe9826.png',
+  'ravikishore0503@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-0bef6807-547e-439c-aa11-d234bdd08f6c.png',
+  'velagaletisindhu@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-114fdade-b978-41bd-8784-232070aa62a1.png',
+  'gullaanandkumar@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-26a3e03e-fde9-464f-8990-c4efe0528a57.png',
+  'susmithanunna141@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-ec79ee71-b800-4176-a115-3087b014ea5a.png',
+  'udaysaichaitanya@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-5f541ee0-5c43-4501-9972-4e060ec6269a.png',
+  'mbsaikarthik@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-169f616b-c993-4b4b-874a-cf08ebf02536.png',
+  'sreeja1517@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-f51e9178-ba51-49ad-9678-2851eeab4ff8.png',
+  'padamharshitakrishnasri@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-191b2af6-f465-4144-9e45-431dcf013ecc.png',
+  'santhosh79812@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-008133aa-a4e8-4004-9975-f542bb08bc14.png',
+  'lakshmipriya79736@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-1baa49b2-0547-465f-b682-1fa71259f347.png',
+  'alapatikumarraja@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-f6ad6217-443a-4736-83df-9217fea5847b.png',
+  'deepikapadala0@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-29129f93-4942-48f1-b908-37a4c2777748.png',
+  'renukakrovvidi@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-c122f1d7-b873-4f63-b902-4cac25c9c32b.png',
+  'kchiruvaibhavreddy@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-2361eff5-a4f0-4149-9d3f-b568d3b6f32d.png',
+  'dineshkarthikgude@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-697e2f16-1f1a-4a93-bcb7-dff18b05b606.png',
+  'a.gireshraju@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-7783990f-776f-4a00-97be-63310f18929c.png',
+  'ecssprasad2731@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-861cdec6-3283-4c2f-980e-f27d1307ba47.png',
+  'nandyalahima8@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-d15a8b71-c7ef-4c4c-a196-99eee6baaa88.png',
+  'sathwikagayathri425@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-25c6ca6d-c43e-4fe4-a7c6-ba27653e4192.png',
+  'jahnavi.nekkanti00@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-77a0849f-30c9-40aa-a4ca-292fb54a1e33.png',
+  'ravithreyiniravi@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-55f831ea-ba0b-4eab-9c13-2f917e1322fb.png',
+  'bhavanisankaramboddu@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-a74399ee-a64e-4021-89e9-324047f96c7e.png',
+  'write2anureddy@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-4a78cfaf-b604-4d27-81fd-bb1fad8e745e.png',
+  'nithinyadav393@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-5ef7a40a-62a0-4b95-ac49-c0df7bb4ef1a.png',
+  'charanm878@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-61967944-d17e-4ad5-99ed-b2b66ce53d50.png',
+  'surisettideepika999@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-b315584e-b456-4632-a09c-2eda57a2e85b.png',
+  'alladadevi6@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-624e78c4-9b38-4c32-b370-0750dc19fa97.png',
+  'sontimlakshmimeghana@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-0baec339-081f-41bc-bad5-a4f3540397ef.png',
+  'sasisanjanapydikondala@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-0a95f8fe-af8d-48c9-900f-27a7f700c401.png',
+  'shaikrajiyasulthana13455@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-05f0bef8-0b6e-459f-a850-95f47afb7786.png',
+  'mahammadvalibabu@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-f936849f-ac4a-4ebf-946c-dde435cc5c55.png',
+  'venkateshdodda14@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-db73b661-8628-4614-a45a-ed70742b158b.png',
+  'kdevimahendra@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-200e8256-2047-479a-adb0-aa881f93259f.png',
+  'supriyaganne2426@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-a7010f4d-b752-440d-9c11-64165d447296.png',
+  'prasadsrinu772@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-3c414baa-9392-43c5-92fb-ecf28efb7d1b.png',
+  'supriyaveerla2020@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-01dd7eca-8f4c-4595-b3eb-6bd97decd367.png',
+  'satyasivanikommina@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-a3975301-cd54-437e-acd0-f2904fbe4b41.png',
+  'madasumanichandu75@gmail.com': 'https://qrexplore.com/download/23/11/13/DslRIH/https---www.cloudskillsboost.google-public_profiles-9267ae9f-4799-4cef-81f9-12aeebb9aa9b.png',
+
+};
+  
+const participantsData = {
+  'meghanaa3579@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/834458f1-d1a1-442d-afa5-dff2af252952',
+  'yandrasaisudheer@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/a78445b0-20c1-4a59-8a79-00866f1b4a97',
+  'maheshmurari001@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/9e685ab2-14d4-4c22-beb6-5b20e2b981e5',
+  'manjusha5855@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/94f91286-e137-41fe-94e5-8d7504e21092',
+  'srisowmyav28@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/3321aef1-be8e-4e78-9a0f-3f1e3a5498ac',
+  'jagadeeshkumar112311@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/ad96da95-8bd6-4a99-9bd6-930a36ce7b31',
+  'satyapavanjupudi@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/9ae96918-333e-4b7a-8b28-d4880d3e8460',
+  'sunshine.anu2564@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/2d1f12e6-29ac-400a-b5ba-729c42b06b97',
+  'sathvikaganapathineedi@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/423251da-012e-40bc-b0a6-6e32c9a4ec79',
+  'shaiktaslim2019@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/071ab8af-9dc7-4350-9209-74835ab0f55d',
+  'dattasaimoganti@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/0d3d5fa7-c013-41af-a367-e2a5bd6776dd',
+  'shaiksubhansaheb609@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/25f78998-37bd-4cf3-aeed-a0c44d1e4615',
+  'divakardhanasai@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/b3fd9e12-b91d-4077-a13a-39f8741b6009',
+  'navyachalapaka123@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/ad96a044-4de1-4a51-8a3e-5c3c53048acf',
+  'tarunkassetti@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/cdbfaaf2-a346-4fac-970d-b922f44a0bc9',
+  'harshitha258gadde@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/a007caaf-4e28-4346-8598-f50289fbe3fd',
+  'hasinikaja19@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/97eb2300-3800-4fa8-9738-6de2b7ebd9ff',
+  'anusha8804@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/6a0f4773-b076-48b1-916e-701c2af0d059',
+  'guptach1105@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/65cc225d-5315-43b6-9643-2d4bab20939d',
+  'sriyareddy57503@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/99028101-765d-47ac-adc0-4c2b21dc26fc',
+  'ksharonkumar01@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/6feb54d0-e73f-4171-85bf-8ff71dddca2e',
+  'srisatyasatti@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/4243e48b-be27-4434-abf7-c329099fd7a2',
+  'maturupraneeth@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/8acee063-b862-4f85-8674-44372a08890f',
+  'kasyapvadapalli5233@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/d1cd576b-b65a-4276-b102-f96a2bb344b3',
+  'sakhamurisravanthi49@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/7472465b-ce23-463b-9652-b97acfd0ddb4',
+  'harshitanavya99@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/f79f5b7c-4e9b-4827-b03e-23767fa50658',
+  'skar2k23@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/109e21a0-3b71-4194-bf2e-4f39576c3c56',
+  'bhosalesraya77@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/7997d30d-5e33-4693-a535-190392346531',
+  'mungarasatwika@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/d9eee36a-2ec8-4969-8701-e6db3fc9d727',
+  'pranavpatri99@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/b034a26a-df4a-41fc-82ff-d90325f1e71e',
+  'mr.veeru125@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/a06b073f-468f-466c-93d7-df5ddc92a86a',
+  'nikhilakandukuri@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/26984a0c-7d17-4ff3-a567-0c4ad7642cd6',
+  'tanveerbashask@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/98e9afad-7896-488b-a609-937443d832c5',
+  'karamathfardeen@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/a7603bd3-3573-4dc2-9dca-9d7e6448eed0',
+  'srimounikakv@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/6cd25772-d0b1-4436-b0da-962a004f37e7',
+  'saranyachanduri@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/2b68705c-8bd9-48f5-b3c5-57a964763bd6',
+  'mungaraharika2004@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/f7029676-5d95-4505-98be-26912cb06c31',
+  'sunny1225752@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/87505651-9a18-4065-815b-aaced60c63ec',
+  'sudhagayathri.chouta@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/7bb83ffb-8fb2-4ebb-9f67-b1b442510eef',
+  'v.dharma2552@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/9bef4e85-0d9f-41a0-bb6b-e5f92a128d19',
+  'harikaadi799@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/9c0ece02-2ed9-44c6-84ba-1801d80ca5ac',
+  'vamsib349@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/e1740d76-6fbd-4f0c-8041-de6f8d1f3c99',
+  'gumaaishwarya999@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/b92adb45-6ea3-45b3-b267-8cdc4ff79f28',
+  'anjanakaruturi3@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/4b8a61d9-efd2-48e7-82e1-60da65831cbc',
+  'bhagyasri1783@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/24f0c387-f127-425e-bf5e-50d7390d2f40',
+  'sripavanipanda1902@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/44321b11-0925-4bac-b327-f9a007bd48c2',
+  'sasikiran1565@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/11cd8e45-b33c-483b-9778-17a900159f46',
+  'saideepthi961@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/564aaea8-3b58-4b03-9a22-2c70541ffe4f',
+  'govardhandamisetti@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/1f5f38dd-bdfd-49ad-a67e-7becd883e57d',
+  'ushakumarisajja@gmail.com': 'http://www.cloudskillsboost.google/public_profiles/c1a2ae7c-3a1d-4fab-89d2-930d1f508f1c',
+  'sheemask123@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/84099ac1-0abf-4b03-902f-49b4c13d5791',
+  'm80961282@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/dff1ad2a-5d83-478e-a43c-6dcdd364fe2c',
+  'chbhargavi009@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/6a7d3332-2920-4262-ae77-84421a462a60',
+  'luckychandrahas@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/96988cf4-fa3f-4482-8942-2105b5925b7f',
+  'gayathrisuggisetti2564@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/d52f7416-71cb-4838-8fbc-4d0c08386b14',
+  'sravaniareti3@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/9bded78c-daaf-442b-8755-ed6e0e7d6c17',
+  'anjali.annamreddy13@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/8a466fad-2f9e-485a-93b0-53e0fbeb0a24',
+  'likhith5143@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/41521628-a27b-420a-96ca-68def8a2b63a',
+  'umamangena04@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/0660d326-ebd5-4ccc-97f4-b39a20d873ba',
+  'navyareddy5254@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/244e358b-38ec-4373-8057-62dc05585e44',
+  'lavanyadara61@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/642498ae-8e09-4553-9f53-f667c4d63fdf',
+  'durgasasindra@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/41db625d-5532-43f2-995e-12cb198b0720',
+  'palivelamohinipravallika11@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/588bd501-d0c9-4d6c-a048-04793ffe9826',
+  'ravikishore0503@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/0bef6807-547e-439c-aa11-d234bdd08f6c',
+  'velagaletisindhu@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/114fdade-b978-41bd-8784-232070aa62a1',
+  'gullaanandkumar@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/26a3e03e-fde9-464f-8990-c4efe0528a57',
+  'susmithanunna141@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/ec79ee71-b800-4176-a115-3087b014ea5a',
+  'udaysaichaitanya@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/5f541ee0-5c43-4501-9972-4e060ec6269a',
+  'mbsaikarthik@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/169f616b-c993-4b4b-874a-cf08ebf02536',
+  'sreeja1517@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/f51e9178-ba51-49ad-9678-2851eeab4ff8',
+  'padamharshitakrishnasri@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/191b2af6-f465-4144-9e45-431dcf013ecc',
+  'santhosh79812@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/008133aa-a4e8-4004-9975-f542bb08bc14',
+  'lakshmipriya79736@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/1baa49b2-0547-465f-b682-1fa71259f347',
+  'alapatikumarraja@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/f6ad6217-443a-4736-83df-9217fea5847b',
+  'deepikapadala0@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/29129f93-4942-48f1-b908-37a4c2777748',
+  'renukakrovvidi@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/c122f1d7-b873-4f63-b902-4cac25c9c32b',
+  'kchiruvaibhavreddy@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/2361eff5-a4f0-4149-9d3f-b568d3b6f32d',
+  'dineshkarthikgude@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/697e2f16-1f1a-4a93-bcb7-dff18b05b606',
+  'a.gireshraju@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/7783990f-776f-4a00-97be-63310f18929c',
+  'ecssprasad2731@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/861cdec6-3283-4c2f-980e-f27d1307ba47',
+  'nandyalahima8@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/d15a8b71-c7ef-4c4c-a196-99eee6baaa88',
+  'sathwikagayathri425@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/25c6ca6d-c43e-4fe4-a7c6-ba27653e4192',
+  'jahnavi.nekkanti00@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/77a0849f-30c9-40aa-a4ca-292fb54a1e33',
+  'ravithreyiniravi@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/55f831ea-ba0b-4eab-9c13-2f917e1322fb',
+  'bhavanisankaramboddu@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/a74399ee-a64e-4021-89e9-324047f96c7e',
+  'write2anureddy@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/4a78cfaf-b604-4d27-81fd-bb1fad8e745e',
+  'nithinyadav393@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/5ef7a40a-62a0-4b95-ac49-c0df7bb4ef1a',
+  'charanm878@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/61967944-d17e-4ad5-99ed-b2b66ce53d50',
+  'surisettideepika999@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/b315584e-b456-4632-a09c-2eda57a2e85b',
+  'alladadevi6@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/624e78c4-9b38-4c32-b370-0750dc19fa97',
+  'sontimlakshmimeghana@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/0baec339-081f-41bc-bad5-a4f3540397ef',
+  'sasisanjanapydikondala@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/0a95f8fe-af8d-48c9-900f-27a7f700c401',
+  'shaikrajiyasulthana13455@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/05f0bef8-0b6e-459f-a850-95f47afb7786',
+  'mahammadvalibabu@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/f936849f-ac4a-4ebf-946c-dde435cc5c55',
+  'venkateshdodda14@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/db73b661-8628-4614-a45a-ed70742b158b',
+  'kdevimahendra@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/200e8256-2047-479a-adb0-aa881f93259f',
+  'supriyaganne2426@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/a7010f4d-b752-440d-9c11-64165d447296',
+  'prasadsrinu772@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/3c414baa-9392-43c5-92fb-ecf28efb7d1b',
+  'supriyaveerla2020@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/01dd7eca-8f4c-4595-b3eb-6bd97decd367',
+  'satyasivanikommina@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/a3975301-cd54-437e-acd0-f2904fbe4b41',
+  'madasumanichandu75@gmail.com': 'https://www.cloudskillsboost.google/public_profiles/9267ae9f-4799-4cef-81f9-12aeebb9aa9b'
+};
+
+function generateOptions() {
+            const datalist = document.getElementById("rollNumberList");
+
+            // Clear existing options
+            datalist.innerHTML = "";
+
+            // Add options based on email addresses
+            for (const email in rollNumberNameMap) {
+                const option = document.createElement("option");
+                option.value = email;
+                datalist.appendChild(option);
+            }
+        }
+
+            var selectedRollNumber = rollNumberInput.value;
+
+            if (rollNumberNameMap[selectedRollNumber]) {
+                nameInput.value = rollNumberNameMap[selectedRollNumber];
+                document.getElementById("rollNumberError").textContent = "";
+            } else {
+                nameInput.value = "";
+                document.getElementById("rollNumberError").textContent = "Enter a valid Mail or Your are Not Completed.";
+            }
+            if (participantsData[selectedRollNumber]) {
+                link.value = participantsData[selectedRollNumber];
+                document.getElementById("rollNumberError").textContent = "";
+            } else {
+                link.value = "";
+                document.getElementById("rollNumberError").textContent = "Enter a valid Mail or Your are Not Completed.";
+            }
+
+            if (img_link[selectedRollNumber]) {
+                img.value = img_link[selectedRollNumber];
+                document.getElementById("img_link").textContent = "";
+            } else {
+                img.value = "";
+                document.getElementById("rollNumberError").textContent = "Enter a valid Mail or Your are Not Completed.";
+            }
+        }
+
+        function verifyRollNumber() {
+            var rollNumberInput = document.getElementById("rollNumber");
+            var rollNumberError = document.getElementById("rollNumberError");
+
+            // Sample data - replace with your actual data
+
+            var enteredRollNumber = rollNumberInput.value;
+
+            if (Object.keys(rollNumberNameMap).includes(enteredRollNumber)) {
+                rollNumberError.textContent = "";
+            } else {
+                rollNumberError.textContent = "Entered roll number is not valid.";
+            }
+        }
+
+        function validateForm() {
+            var rollNumberInput = document.getElementById("rollNumber");
+            var rollNumberError = document.getElementById("rollNumberError");
+
+            // Check if a roll number is selected or entered
+            if (rollNumberInput.value === "") {
+                rollNumberError.textContent = "Please select or enter a roll number.";
+                return false;
+            } else {
+                rollNumberError.textContent = "";
+            }
+            window.location.href ='Thankyou.html';
+            return true;
+        }
+        generateOptions();
+    </script>
+
+</body>
+</html>
