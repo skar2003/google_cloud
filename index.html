@@ -77,7 +77,7 @@
                 <input type="hidden" class="form-control" id="img_link" name="entry.1628420128" readonly>
             </div>
 
-            <button type="submit" class="btn btn-submit btn-block" onclick="thankyou()">Submit</button>
+            <button type="submit" class="btn btn-submit btn-block" disabled>Submit</button>
         </form>
     </div>
 
@@ -87,15 +87,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <script>
-        function fillName() {
-            var rollNumberInput = document.getElementById("rollNumber");
-            var nameInput = document.getElementById("name");
-            var link=document.getElementById("link");
-            var rollNumberList = document.getElementById("rollNumberList").options;
-            var img=document.getElementById("img_link");
-
-            // Sample data - replace with your actual data
-    var rollNumberNameMap = {
+         var rollNumberNameMap = {
     "meghanaa3579@gmail.com": "Meghana Manda",
     "yandrasaisudheer@gmail.com": "SAI SUDHEER YANDRA",
     "maheshmurari001@gmail.com": "MURARI VENKATA SAI MAHESH",
@@ -198,6 +190,15 @@
     "satyasivanikommina@gmail.com": "Satyasivani Kommina",
     "madasumanichandu75@gmail.com": "MANI CHANDU MADASU",
 };
+        function fillName() {
+            var rollNumberInput = document.getElementById("rollNumber");
+            var nameInput = document.getElementById("name");
+            var link=document.getElementById("link");
+            var rollNumberList = document.getElementById("rollNumberList").options;
+            var img=document.getElementById("img_link");
+
+            // Sample data - replace with your actual data
+   
 const img_link = {
     'meghanaa3579@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-834458f1-d1a1-442d-afa5-dff2af252952.png',
     'yandrasaisudheer@gmail.com': 'https://qrexplore.com/download/23/11/13/bLmJkH/https---www.cloudskillsboost.google-public_profiles-a78445b0-20c1-4a59-8a79-00866f1b4a97.png',
@@ -460,22 +461,35 @@ function generateOptions() {
             } else {
                 rollNumberError.textContent = "Entered roll number is not valid.";
             }
+            validateForm();
         }
 
-        function validateForm() {
-            var rollNumberInput = document.getElementById("rollNumber");
-            var rollNumberError = document.getElementById("rollNumberError");
+     function validateForm() {
+        var rollNumberInput = document.getElementById("rollNumber");
+        var rollNumberError = document.getElementById("rollNumberError");
+        var submitButton = document.querySelector(".btn-submit");
 
-            // Check if a roll number is selected or entered
-            if (rollNumberInput.value === "") {
-                rollNumberError.textContent = "Please select or enter a roll number.";
-                return false;
+        // Check if a roll number is selected or entered
+        if (rollNumberInput.value === "") {
+            rollNumberError.textContent = "Please select or enter a valid email address.";
+            submitButton.disabled = true; // Disable the submit button
+            return false;
+        } else {
+            rollNumberError.textContent = "";
+
+            // Check if the entered email is valid
+            var enteredRollNumber = rollNumberInput.value;
+            if (Object.keys(rollNumberNameMap).includes(enteredRollNumber)) {
+                submitButton.disabled = false; // Enable the submit button
+                alert("hi");
             } else {
-                rollNumberError.textContent = "";
+                submitButton.disabled = true; // Disable the submit button
+                rollNumberError.textContent = "Entered email is not valid.";
+                return false;
             }
-            window.location.href ='Thankyou.html';
-            return true;
         }
+        return true;
+    }
         generateOptions();
     </script>
 
